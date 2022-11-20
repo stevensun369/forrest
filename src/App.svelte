@@ -111,12 +111,10 @@
   }
 
   $: {
-    $generations = [...Array($initGens).keys()]
     for (let i in $generations) {
       nextGen()
     }
 
-    // trying to make it work?
     let cU = Math.round(u[gen]);
     let cV = Math.round(v[gen]);
 
@@ -130,32 +128,6 @@
         $field[i][j] = 0
       }
     }
-
-    // for (let i in [...Array($fieldSize).keys()]) {
-    //   $field.push([])
-    //   for (let j in [...Array($fieldSize).keys()]) {
-    //     let decision = Math.floor(Math.random() * 3)
-
-    //     if (decision === 1) {
-    //       cU -= 1
-    //     }
-
-    //     if (decision === 2) {
-    //       cV -= 1
-    //     }
-
-    //     if (decision )
-
-    //     if (cU < 0 && decision === 1) {
-    //       decision = 0
-    //     }
-
-    //     if (cV < 0 && decision === 2) {
-    //       decision = 0
-    //     }
-    //     $field[i][j] = decision
-    //   }
-    // }
 
     let c = 0;
     while (c < ($fieldSize * $fieldSize)) {
@@ -181,12 +153,6 @@
         cV -= 1
       }
 
-      // if ($field[i][j] === 3) {
-      //   $field[i][j] = decision
-      // } else {
-      //   continue
-      // }
-
       if ($field[i][j] === 0) {
         let cField = get(field)
 
@@ -194,51 +160,91 @@
 
         field.set(cField)
       }
-
     }
     console.log('--- after ---')
     console.log("copy of U: " + cU)
     console.log("copy of V: " + cV)
-
-  }
-
-  $: {
-    console.log(field)
   }
 </script>
 
 <main>
-  initial u: <input  type="text" bind:value={initU}> <br>
-  initial v: <input  type="text" bind:value={initV}> <br>
-  initial w: <input  type="text" bind:value={initW}> <br>
+  
+  <div id="inputs">
+    <div style="height: 10px;"></div>
+    u inițial: <input  type="text" bind:value={initU}>
+    v inițial: <input  type="text" bind:value={initV}>
+    w inițial: <input  type="text" bind:value={initW}> 
+    <br>
+    α (rata producție semințe): <input type="text" bind:value={$alfa}> <br>
+    d (rata difusivitate semințe): <input type="text" bind:value={$d}> <br>
+    β (rata depunere semințe): <input type="text" bind:value={$beta}> <br>
+    δ (rata stabilire semințe): <input type="text" bind:value={$delta}> <br>
+    γ (rata mortalității tinere): <input type="text" bind:value={$gamma}> <br>
+    h (rata mortalității bătrâne): <input type="text" bind:value={$h}> <br>
+    f (rata maturizării): <input type="text" bind:value={$f}> <br>
 
-  alfa (seed prod rate): <input  type="text" bind:value={$alfa}> <br>
-  d (diffusivity rate): <input  type="text" bind:value={$d}> <br>
-  beta (seed deposition rate): <input  type="text" bind:value={$beta}> <br>
-  delta (seed establishement rate): <input  type="text" bind:value={$delta}> <br>
-  gamma (young death rate): <input  type="text" bind:value={$gamma}> <br>
-  h (old death rate): <input  type="text" bind:value={$h}> <br>
-  f (maturify rate): <input  type="text" bind:value={$f}> <br>
+    numar generatii: <input type="text" bind:value={$initGens}> <br>
 
-  generations: <input  type="text" bind:value={$initGens}> <br>
+  </div>
 
-
-  <input type="submit" value="restart" on:click={restart}><br>
+  <input id="restart" type="submit" value="restart" on:click={restart}><br>
 
   
   <Field {fieldSize} {field} />
   
-  {#each $generations as i}
+  <!-- {#each $generations as i}
     {i}: <br>
     --- (u = {u[i]}) - (sEst = {sEst[i]}) - (yMort = {yMort[i]}) - (mat = {mat[i]})  <br>
     --- (v = {v[i]}) - (mat = {mat[i]}) - (oMort = {oMort[i]}) <br>
     --- (w = {w[i]}) - (sDiff = {sDiff[i]}) - (sDep = {sDep[i]}) - (sProd = {sProd[i]}) <br>
+  {/each} -->
+  {#each $generations as i}
+    <div class="heading">{i}</div>
+    (u = {u[i]}) <br>
+    (v = {v[i]}) <br>
+    (w = {w[i]}) <br>
+    <br>
   {/each}
 </main>
 
 <style>
   :root {
     --cell: 5px;
+    --lightgreen: #38E377;
+    --darkgreen: #054D1B;
+    --brown: rgb(116,102,59);
+  }
+
+  #inputs {
+    font-family: monospace;
+  }
+
+  .heading {
+    font-weight: 600;
+  }
+
+  #inputs input {
+    width: 50px;
+    height: 30px;
+    border-radius: 300px;
+    padding-left: 10px;
+    outline: none;
+    border: none;
+    border: 1px solid var(--darkgreen);
+    margin-bottom: 5px;
+  }
+
+  #restart {
+    width: 100px;
+    height: 30px;
+    background: #00ff11;
+    outline: none;
+    color: white;
+    border: none;
+    border-radius:300px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 </style>
 

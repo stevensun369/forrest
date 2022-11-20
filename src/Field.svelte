@@ -9,7 +9,9 @@
   {#each [...Array($fieldSize).keys()] as i}
     <div class="line">
       {#each [...Array($fieldSize).keys()] as j}
-        <div class="cell color-{$field[i][j]}"></div>
+        <div class="cell color-0">
+          <div class="tree color-{$field[i][j]}"></div>
+        </div>
         <!-- <div class="cell color-0"></div> -->
       {/each}
     </div>
@@ -36,6 +38,12 @@
     /* background: gray; */
   }
 
+  .tree {
+    width: var(--cell);
+    height: var(--cell);
+    /* border-radius: 100%; */
+  }
+
   .color-0 {
     background: #74663B;
   }
@@ -45,7 +53,7 @@
   }
 
   .color-2 {
-    background: #162a00;
+    background: rgb(2, 91, 10);
   }
 
   .color-3 {
